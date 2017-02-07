@@ -1,0 +1,60 @@
+{
+  "name": "ngexplorer2.0",
+  "version": "2.0.0",
+  "description": "Indexes and Found files in the network use coffee-script, webpack, mongodb, elasticsearch, express, clients in vue2, react and angular2",
+  "server": "index.coffee",
+  "scripts": {
+    "start": "node server",
+    "dev": "webpack --watch",
+    "prod": "webpack -p",
+    "test": "mocha --compilers coffee:coffee-script/register -R spec -u bdd -w"
+  },
+  "keywords": [
+    "elasticsearch",
+    "mongodb",
+    "webpack",
+    "vuejs",
+    "react",
+    "angular2"
+  ],
+  "author": "gustaYo",
+  "license": "ISC",
+  "dependencies": {
+    "@marsaud/smb2": "^0.7.2",
+    "async": "^2.0.0",
+    "body-parser": "^1.16.0",
+    "cheerio": "^0.20.0",
+    "cors": "^2.8.1",
+    "ejs": "^2.5.5",
+    "express": "^4.14.1",
+    "express-graphql": "^0.6.3",
+    "express-jwt": "^5.1.0",
+    "express-useragent": "^1.0.6",
+    "ftp": "^0.3.10",
+    "got": "^6.7.1",
+    "imgur": "^0.2.0",
+    "ip": "^1.1.4",
+    "jsonwebtoken": "^7.2.1",
+    "lodash": "^4.17.4",
+    "moment": "^2.17.0",
+    "mongoosastic": "^4.2.4",
+    "mongoose": "^4.8.0",
+    "morgan": "^1.7.0",
+    "request": "^2.73.0",
+    "request-ip": "^1.2.3",
+    "smb2": "^0.2.7",
+    "translate-smb-path": "0.0.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.12.2",
+    "imports-loader": "^0.7.0",
+    "json-loader": "^0.5.4",
+    "mocha": "^3.2.0",
+    "should": "^11.2.0",
+    "webpack": "^1.14.0"
+  }
+}
