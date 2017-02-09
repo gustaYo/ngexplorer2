@@ -5,7 +5,24 @@ cheerio = __non_webpack_require__ 'cheerio'
 class HTTPProvider extends Provider
   constructor: ->
     super
+
+  promisify: (url) =>
+    params =
+      url: url,
+      pool:
+        maxSockets: 2
+      headers:
+        'Accept': 'text/plain'
+      proxy: if config.useProxy then config.proxy else null
+    return new Promise (resolve, reject) ->
+      request params, (error, response, body) ->
+        if not error and response.statusCode is 200
+          resolve body
+        else
+          reject error
+
   makeRequest: (url, callback) ->
+
     params =
       url: url,
       pool:
@@ -23,10 +40,9 @@ class HTTPProvider extends Provider
 
 
   readPath: (path, next)=>
-    console.log path
     path = path.replace('//', '/')
+    #console.log path
     url = @prover.uri + path + '/'
-    # console.log url
     reqObj = @makeRequest url, (error, response, body) =>
       if not error and response.statusCode is 200
         filesFolders = @parseBodyProvider(path, @prover, body)
@@ -57,10 +73,11 @@ class HTTPProvider extends Provider
 
 
   parseBodyProvider: (path, prov, body) =>
-    console.log path
+    #console.log path
     files = []
     folders = []
     prover = @prover
+    ignoreDir = @ignoreDir
     valid = @dirIsValid
     dom = cheerio.load(body)
     dom(prov.queryName)
@@ -76,7 +93,7 @@ class HTTPProvider extends Provider
         else
           if href[href.length - 1] is '/'
             name = href.substring 0, href.length - 1
-            if @ignoreDir path + '/' + name
+            if ignoreDir path + '/' + name
               folder =
                 dir: path
                 name: name

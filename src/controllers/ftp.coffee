@@ -7,6 +7,7 @@
 async = __non_webpack_require__ 'async'
 moment = __non_webpack_require__ 'moment'
 path = __non_webpack_require__ 'path'
+
 class FtpCtr
   constructor: () ->
     @esClient = new ElasticClient(config.esClient.config)
@@ -21,14 +22,14 @@ class FtpCtr
       _id: 'providerLocalDirectories'
       name: 'providerLocalDirectories'
       rootdir: '/'
-      ignore: []
+      ignore: ["#{__dirname}/node_modules"]
 
     ftpTEST =
       type: 'ftp'
       _id: 'providerFtp'
       name: 'providerFtp'
       rootdir: '/'
-      uri: 'ftp.xetid.cu'
+      uri: 'ftp.asd.cu'
       ignore: []
       thread: 3
 
@@ -37,7 +38,7 @@ class FtpCtr
       _id: 'providerHttpStore'
       name: 'providerHttpStore'
       rootdir: '/',
-      uri: 'http://localhost:8000'
+      uri: 'http://store.asd.cu'
       ignore: []
       thread: 4,
       queryName: 'a'
@@ -51,18 +52,29 @@ class FtpCtr
       ignore: []
 
     # some example
-
+    parms =
+      prov: ftpTEST._id
+      dir: '/ISOS'
+    #@runScannerPrivider ftpTEST,parms
+    parms =
+      prov: httpTEST._id
+      dir: '/'
+    @runScannerPrivider httpTEST,parms
     parms =
       prov: localTEST._id
-      dir: __dirname + '/src'
-    @testProvider(localTEST, parms)
+      dir: __dirname
+    @runScannerPrivider localTEST,parms
 
-  testProvider: (provider, parms)=>
-    prov = new FactoryProvider(provider).factory()
+
+  runScannerPrivider: (provi,parms)=>
+    prov = new FactoryProvider(provi).factory()
     timeTimeout = setTimeout () =>
-      @scannerProvider parms, prov, ()->
-        console.log 'termine'
-    , 5000
+      @scannerProvider parms, prov, (err)=>
+        if err
+          console.log err
+        prov = null
+    , 1000
+
 
   providerScanner: (req, res) =>
     data = req.body
@@ -163,7 +175,7 @@ class FtpCtr
           if useElastic
             async.mapLimit ids, 1
             , (server, next) =>
-              @esClient.deleteFilesIndex ids, 'gustaaaa', 'file', next()
+              @esClient.deleteFilesIndex prov: server, 'gustaaaa', 'file', next()
             , () ->
               console.log("eliminado todos lo dos en el servidor elastic")
           return res.status(200).jsonp('ok')

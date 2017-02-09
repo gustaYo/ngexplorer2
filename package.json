@@ -22,7 +22,9 @@
   "dependencies": {
     "@marsaud/smb2": "^0.7.2",
     "async": "^2.0.0",
+    "asyncawait": "^1.0.6",
     "body-parser": "^1.16.0",
+    "callback2promise": "^1.0.2",
     "cheerio": "^0.20.0",
     "cors": "^2.8.1",
     "ejs": "^2.5.5",
@@ -32,6 +34,7 @@
     "express-useragent": "^1.0.6",
     "ftp": "^0.3.10",
     "got": "^6.7.1",
+    "graphql": "^0.9.1",
     "imgur": "^0.2.0",
     "ip": "^1.1.4",
     "jsonwebtoken": "^7.2.1",
