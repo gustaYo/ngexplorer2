@@ -37,14 +37,14 @@ class SSHProvider extends Provider
       @statFiles path, res.data, (filesFound, foldersFound)->
         next filesFound, foldersFound
 
-  statFiles: (path, files, next) ->
+  statFiles: (path, files, next) =>
     listReturn = []
     list = files.split "\n"
     folders = []
     list.map (line) =>
       isFile = "#{line[0]}#{line[1]}" is 'dr'
       file =
-        prov: 'some'
+        prov: @prover._id
         name: 'some'
         dir: path
         atime: 'some'

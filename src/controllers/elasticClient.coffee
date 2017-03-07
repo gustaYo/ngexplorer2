@@ -184,7 +184,7 @@ class ElasticClient
       count += response.hits.hits.length
       response.hits.hits.map (hit) -> allRecords.push hit
       if count%15000 is 0
-        console.log 'found->',count
+        console.log 'hit count->',count
       if response.hits.total is count
         create_bulk = @bulkDelete [], allRecords, indexName, 'file'
         @freeEsClient () =>

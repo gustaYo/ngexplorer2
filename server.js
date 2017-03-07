@@ -284,8 +284,8 @@
 	      _id: 'providerSSHStore',
 	      name: 'providerSHHStore',
 	      uri: 'tuip',
-	      user: 'pcUser',
-	      password: 'pcPassword',
+	      user: 'gustaYo',
+	      password: 'mypassword',
 	      post: 22,
 	      rootdir: '/',
 	      ignore: [__dirname + "/node_modules", "*.git", "*.idea"],
@@ -303,7 +303,6 @@
 	      prov: ftpTEST._id,
 	      dir: '/ISOS'
 	    };
-	    this.runScannerPrivider(ftpTEST, parms);
 	    parms = {
 	      prov: httpTEST._id,
 	      dir: '/'
@@ -316,6 +315,7 @@
 	      prov: sshTEST._id,
 	      dir: __dirname
 	    };
+	    this.runScannerPrivider(sshTEST, parms);
 	  }
 	
 	  FtpCtr.prototype.runScannerPrivider = function(provi, parms) {
@@ -377,6 +377,7 @@
 	            return next(err);
 	          } else {
 	            if (config.esClient.useElastic) {
+	              console.log('scraper found', files, ' files');
 	              return _this.removeFilesEsClient({
 	                prov: parms.prov
 	              }, function() {
@@ -1469,6 +1470,7 @@
 	  extend(SSHProvider, superClass);
 	
 	  function SSHProvider() {
+	    this.statFiles = bind(this.statFiles, this);
 	    this.readPath = bind(this.readPath, this);
 	    this.connectToServer = bind(this.connectToServer, this);
 	    SSHProvider.__super__.constructor.apply(this, arguments);
@@ -1524,7 +1526,7 @@
 	        var aa, date, dd, file, isFile, name, newPath;
 	        isFile = ("" + line[0] + line[1]) === 'dr';
 	        file = {
-	          prov: 'some',
+	          prov: _this.prover._id,
 	          name: 'some',
 	          dir: path,
 	          atime: 'some',
@@ -1880,7 +1882,7 @@
 	          return allRecords.push(hit);
 	        });
 	        if (count % 15000 === 0) {
-	          console.log('found->', count);
+	          console.log('hit count->', count);
 	        }
 	        if (response.hits.total === count) {
 	          create_bulk = _this.bulkDelete([], allRecords, indexName, 'file');

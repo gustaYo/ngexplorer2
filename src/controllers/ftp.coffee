@@ -48,8 +48,8 @@ class FtpCtr
       _id: 'providerSSHStore'
       name: 'providerSHHStore'
       uri: 'tuip'
-      user: 'pcUser'
-      password: 'pcPassword'
+      user: 'gustaYo'
+      password: 'mypassword'
       post: 22
       rootdir: '/',
       ignore: ["#{__dirname}/node_modules", "*.git", "*.idea"]
@@ -67,7 +67,7 @@ class FtpCtr
     parms =
       prov: ftpTEST._id
       dir: '/ISOS'
-    @runScannerPrivider ftpTEST,parms
+    #@runScannerPrivider ftpTEST,parms
     parms =
       prov: httpTEST._id
       dir: '/'
@@ -80,7 +80,7 @@ class FtpCtr
     parms =
       prov: sshTEST._id
       dir: __dirname
-#@runScannerPrivider sshTEST,parms
+    @runScannerPrivider sshTEST,parms
 
 
   runScannerPrivider: (provi, parms) =>
@@ -120,6 +120,7 @@ class FtpCtr
           next err
         else
           if config.esClient.useElastic
+            console.log 'scraper found', files, ' files'
             @removeFilesEsClient prov: parms.prov, () =>
               @syncronizeCollection prov: parms.prov, ()->
                 console.log 'Finished indexing'
