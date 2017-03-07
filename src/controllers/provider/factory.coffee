@@ -2,6 +2,7 @@
 {LOCALProvider} = require './local.coffee'
 {SMBProvider} = require './smb.coffee'
 {HTTPProvider} = require './http.coffee'
+{SSHProvider} = require './ssh.coffee'
 
 class FactoryProvider
   constructor: (@prove = null) ->
@@ -16,5 +17,7 @@ class FactoryProvider
       return new SMBProvider(@prove)
     if @prove.type is 'http'
       return new HTTPProvider(@prove)
+    if @prove.type is 'ssh'
+      return new SSHProvider(@prove)
 
 exports.FactoryProvider = FactoryProvider

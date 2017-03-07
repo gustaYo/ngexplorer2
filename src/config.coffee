@@ -10,6 +10,7 @@ config =
         poolSize: 5
   proxy: process.env.SCRAPING_PROXY or 'http://127.0.0.1:3128'
   useProxy: false
+  debug: true
   esClient:
     useElastic: true
     indexName: 'gustayo'

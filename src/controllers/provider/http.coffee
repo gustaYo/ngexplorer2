@@ -113,7 +113,7 @@ class HTTPProvider extends Provider
                 size = text[text.length - 1]
                 fecha = Date.parse(text[0] + ' ' + text[1])
               catch error
-                console.log error
+                console.log 'error'
             else
               if prov.queryDate
                 query = prov.queryDate.split(':')

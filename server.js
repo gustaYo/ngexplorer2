@@ -149,6 +149,7 @@
 	  },
 	  proxy: process.env.SCRAPING_PROXY || 'http://127.0.0.1:3128',
 	  useProxy: false,
+	  debug: true,
 	  esClient: {
 	    useElastic: true,
 	    indexName: 'gustayo',
@@ -181,7 +182,7 @@
 	      return next();
 	    });
 	    __webpack_require__(3)(app, express);
-	    return __webpack_require__(5)(app, express);
+	    return __webpack_require__(15)(app, express);
 	  };
 	})(this);
 
@@ -212,9 +213,9 @@
 	var ElasticClient, FactoryProvider, File, Ftp, FtpCtr, Logs, Providers, async, config, moment, path, ref,
 	  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 	
-	Providers = __webpack_require__(6).Providers;
+	Providers = __webpack_require__(5).Providers;
 	
-	FactoryProvider = __webpack_require__(7).FactoryProvider;
+	FactoryProvider = __webpack_require__(6).FactoryProvider;
 	
 	ElasticClient = __webpack_require__(12).ElasticClient;
 	
@@ -245,7 +246,7 @@
 	    this.scannerProvider = bind(this.scannerProvider, this);
 	    this.providerScanner = bind(this.providerScanner, this);
 	    this.runScannerPrivider = bind(this.runScannerPrivider, this);
-	    var ftpTEST, httpTEST, localTEST, parms, smbTEST;
+	    var ftpTEST, httpTEST, localTEST, parms, smbTEST, sshTEST;
 	    this.esClient = new ElasticClient(config.esClient.config);
 	    this.useElastic = false;
 	    this.charResult = {
@@ -264,7 +265,7 @@
 	      _id: 'providerFtp',
 	      name: 'providerFtp',
 	      rootdir: '/',
-	      uri: 'ftp.asd.cu',
+	      uri: 'ftp.some.cu',
 	      ignore: [],
 	      thread: 3
 	    };
@@ -273,10 +274,22 @@
 	      _id: 'providerHttpStore',
 	      name: 'providerHttpStore',
 	      rootdir: '/',
-	      uri: 'http://store.asd.cu',
+	      uri: 'http://store.some.cu',
 	      ignore: [],
 	      thread: 4,
 	      queryName: 'a'
+	    };
+	    sshTEST = {
+	      type: 'ssh',
+	      _id: 'providerSSHStore',
+	      name: 'providerSHHStore',
+	      uri: 'tuip',
+	      user: 'pcUser',
+	      password: 'pcPassword',
+	      post: 22,
+	      rootdir: '/',
+	      ignore: [__dirname + "/node_modules", "*.git", "*.idea"],
+	      thread: 4
 	    };
 	    smbTEST = {
 	      type: 'smb',
@@ -290,16 +303,19 @@
 	      prov: ftpTEST._id,
 	      dir: '/ISOS'
 	    };
+	    this.runScannerPrivider(ftpTEST, parms);
 	    parms = {
 	      prov: httpTEST._id,
 	      dir: '/'
 	    };
-	    this.runScannerPrivider(httpTEST, parms);
 	    parms = {
 	      prov: localTEST._id,
 	      dir: __dirname
 	    };
-	    this.runScannerPrivider(localTEST, parms);
+	    parms = {
+	      prov: sshTEST._id,
+	      dir: __dirname
+	    };
 	  }
 	
 	  FtpCtr.prototype.runScannerPrivider = function(provi, parms) {
@@ -761,19 +777,6 @@
 
 /***/ },
 /* 5 */
-/***/ function(module, exports) {
-
-	module.exports = (function(_this) {
-	  return function(app, express) {
-	    return app.route('/react').get(function(req, res) {
-	      return res.render('vue');
-	    });
-	  };
-	})(this);
-
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Provider, async, fs, mongoose,
@@ -816,6 +819,7 @@
 	        q = async.queue(function(dir, callback) {
 	          return _this.readPath(dir, function(filesF, foldersFound) {
 	            var post;
+	            console.log(dir);
 	            if (!filesF && !_this.isReady) {
 	              return next(false, foldersFound);
 	            } else {
@@ -860,10 +864,14 @@
 	    })(this));
 	  };
 	
-	  Provider.prototype.ignoreDir = function(dir) {
-	    var post;
-	    post = this.prover.ignore.indexOf(dir);
-	    return post === -1;
+	  Provider.prototype.ignoreDir = function(dir, name) {
+	    var foundGlobal, foundLocal;
+	    foundLocal = -1;
+	    if (name) {
+	      foundLocal = this.prover.ignore.indexOf("*" + name);
+	    }
+	    foundGlobal = this.prover.ignore.indexOf(dir);
+	    return foundLocal === -1 && foundGlobal === -1;
 	  };
 	
 	  Provider.prototype.concatArray = function(a, b) {
@@ -897,19 +905,21 @@
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var FTPProvider, FactoryProvider, HTTPProvider, LOCALProvider, SMBProvider,
+	var FTPProvider, FactoryProvider, HTTPProvider, LOCALProvider, SMBProvider, SSHProvider,
 	  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 	
-	FTPProvider = __webpack_require__(8).FTPProvider;
+	FTPProvider = __webpack_require__(7).FTPProvider;
 	
-	LOCALProvider = __webpack_require__(9).LOCALProvider;
+	LOCALProvider = __webpack_require__(8).LOCALProvider;
 	
-	SMBProvider = __webpack_require__(10).SMBProvider;
+	SMBProvider = __webpack_require__(9).SMBProvider;
 	
-	HTTPProvider = __webpack_require__(11).HTTPProvider;
+	HTTPProvider = __webpack_require__(10).HTTPProvider;
+	
+	SSHProvider = __webpack_require__(11).SSHProvider;
 	
 	FactoryProvider = (function() {
 	  function FactoryProvider(prove) {
@@ -931,6 +941,9 @@
 	    if (this.prove.type === 'http') {
 	      return new HTTPProvider(this.prove);
 	    }
+	    if (this.prove.type === 'ssh') {
+	      return new SSHProvider(this.prove);
+	    }
 	  };
 	
 	  return FactoryProvider;
@@ -941,7 +954,7 @@
 
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var FTPProvider, FtpClient, Provider, path,
@@ -949,7 +962,7 @@
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 	
-	Provider = __webpack_require__(6).Provider;
+	Provider = __webpack_require__(5).Provider;
 	
 	FtpClient = require('ftp');
 	
@@ -998,7 +1011,6 @@
 	    files = [];
 	    folders = [];
 	    path = path.replace('//', '/');
-	    console.log(path);
 	    return this.clientFtp.list(path, (function(_this) {
 	      return function(err, list) {
 	        if (err) {
@@ -1054,7 +1066,7 @@
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var LOCALProvider, Provider, async, fs,
@@ -1062,7 +1074,7 @@
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 	
-	Provider = __webpack_require__(6).Provider;
+	Provider = __webpack_require__(5).Provider;
 	
 	fs = require('fs');
 	
@@ -1151,7 +1163,7 @@
 
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Provider, SMB2, SMBProvider, path,
@@ -1159,7 +1171,7 @@
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 	
-	Provider = __webpack_require__(6).Provider;
+	Provider = __webpack_require__(5).Provider;
 	
 	SMB2 = require('@marsaud/smb2');
 	
@@ -1220,7 +1232,7 @@
 
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var HTTPProvider, Provider, cheerio, config, request,
@@ -1228,7 +1240,7 @@
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 	
-	Provider = __webpack_require__(6).Provider;
+	Provider = __webpack_require__(5).Provider;
 	
 	config = __webpack_require__(1).config;
 	
@@ -1382,7 +1394,7 @@
 	                fecha = Date.parse(text[0] + ' ' + text[1]);
 	              } catch (error1) {
 	                error = error1;
-	                console.log(error);
+	                console.log('error');
 	              }
 	            } else {
 	              if (prov.queryDate) {
@@ -1436,6 +1448,123 @@
 	})(Provider);
 	
 	exports.HTTPProvider = HTTPProvider;
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Provider, SSHProvider, lftp, path,
+	  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+	
+	Provider = __webpack_require__(5).Provider;
+	
+	lftp = require('ftps');
+	
+	path = require('path');
+	
+	SSHProvider = (function(superClass) {
+	  extend(SSHProvider, superClass);
+	
+	  function SSHProvider() {
+	    this.readPath = bind(this.readPath, this);
+	    this.connectToServer = bind(this.connectToServer, this);
+	    SSHProvider.__super__.constructor.apply(this, arguments);
+	    this.sshClient = {};
+	  }
+	
+	  SSHProvider.prototype.connectToServer = function(next) {
+	    var config, error;
+	    try {
+	      config = {
+	        host: this.prover.uri,
+	        username: this.prover.user,
+	        password: this.prover.password,
+	        protocol: 'sftp',
+	        port: 22,
+	        escape: true,
+	        retries: 2,
+	        timeout: 10,
+	        retryInterval: 5,
+	        retryMultiplier: 1,
+	        requiresPassword: true,
+	        additionalLftpCommands: ''
+	      };
+	      this.sshClient = new lftp(config);
+	      return next();
+	    } catch (error1) {
+	      error = error1;
+	      console.log('ERROR', error);
+	      return next();
+	    }
+	  };
+	
+	  SSHProvider.prototype.readPath = function(path, next) {
+	    var files, folders;
+	    files = [];
+	    folders = [];
+	    return this.sshClient.cd(path).raw('ls').exec((function(_this) {
+	      return function(err, res) {
+	        return _this.statFiles(path, res.data, function(filesFound, foldersFound) {
+	          return next(filesFound, foldersFound);
+	        });
+	      };
+	    })(this));
+	  };
+	
+	  SSHProvider.prototype.statFiles = function(path, files, next) {
+	    var folders, list, listReturn;
+	    listReturn = [];
+	    list = files.split("\n");
+	    folders = [];
+	    list.map((function(_this) {
+	      return function(line) {
+	        var aa, date, dd, file, isFile, name, newPath;
+	        isFile = ("" + line[0] + line[1]) === 'dr';
+	        file = {
+	          prov: 'some',
+	          name: 'some',
+	          dir: path,
+	          atime: 'some',
+	          file: !isFile,
+	          size: 'some'
+	        };
+	        dd = line.split(':');
+	        if ([''].indexOf(dd) === -1) {
+	          if (dd[1]) {
+	            name = dd[1].substr(3, dd[1].length - 1);
+	            if (['.', '..'].indexOf(name) === -1) {
+	              aa = dd[1].substr(0, 2);
+	              file.name = name;
+	              dd = dd[0].split(' ');
+	              dd = dd.slice(dd.length - 4, dd.length);
+	              file.size = dd[0];
+	              date = dd.slice(1, 4);
+	              date = date[0] + ' ' + date[1] + ' ' + date[2] + ':' + aa;
+	              file.atime = Date.parse(date);
+	              listReturn.push(file);
+	              if (!file.file) {
+	                newPath = path + "/" + file.name;
+	                if (_this.ignoreDir(newPath, file.name)) {
+	                  console.log(newPath);
+	                  return folders.push(newPath);
+	                }
+	              }
+	            }
+	          }
+	        }
+	      };
+	    })(this));
+	    return next(listReturn, folders);
+	  };
+	
+	  return SSHProvider;
+	
+	})(Provider);
+	
+	exports.SSHProvider = SSHProvider;
 
 
 /***/ },
@@ -1863,6 +1992,19 @@
 	});
 	
 	exports.Logs = mongoose.model('log', LogSchema);
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = (function(_this) {
+	  return function(app, express) {
+	    return app.route('/react').get(function(req, res) {
+	      return res.render('vue');
+	    });
+	  };
+	})(this);
 
 
 /***/ }

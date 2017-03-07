@@ -9,7 +9,7 @@ class FTPProvider extends Provider
   connectToServer: (next) =>
     try
       config =
-        host: @prover.uri,
+        host: @prover.uri
         port: if @prover.port then @prover.port else ''
         user: if @prover.user then @prover.user else ''
         password: if @prover.password then @prover.password else ''
@@ -18,7 +18,6 @@ class FTPProvider extends Provider
       @clientFtp.on 'ready', () =>
         console.log 'ftp is redy'
         return next()
-
 
     catch error
       console.log 'fsdfdsf', error
@@ -32,7 +31,6 @@ class FTPProvider extends Provider
     files = []
     folders = []
     path = path.replace '//', '/'
-    console.log path
     @clientFtp.list path, (err, list) =>
       if err
         console.log err

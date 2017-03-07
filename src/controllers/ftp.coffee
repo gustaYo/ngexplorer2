@@ -29,7 +29,7 @@ class FtpCtr
       _id: 'providerFtp'
       name: 'providerFtp'
       rootdir: '/'
-      uri: 'ftp.asd.cu'
+      uri: 'ftp.some.cu'
       ignore: []
       thread: 3
 
@@ -38,10 +38,22 @@ class FtpCtr
       _id: 'providerHttpStore'
       name: 'providerHttpStore'
       rootdir: '/',
-      uri: 'http://store.asd.cu'
+      uri: 'http://store.some.cu'
       ignore: []
       thread: 4,
       queryName: 'a'
+
+    sshTEST =
+      type: 'ssh'
+      _id: 'providerSSHStore'
+      name: 'providerSHHStore'
+      uri: 'tuip'
+      user: 'pcUser'
+      password: 'pcPassword'
+      post: 22
+      rootdir: '/',
+      ignore: ["#{__dirname}/node_modules", "*.git", "*.idea"]
+      thread: 4,
 
     smbTEST =
       type: 'smb'
@@ -55,18 +67,23 @@ class FtpCtr
     parms =
       prov: ftpTEST._id
       dir: '/ISOS'
-    #@runScannerPrivider ftpTEST,parms
+    @runScannerPrivider ftpTEST,parms
     parms =
       prov: httpTEST._id
       dir: '/'
-    @runScannerPrivider httpTEST,parms
+    #@runScannerPrivider httpTEST, parms
     parms =
       prov: localTEST._id
       dir: __dirname
-    @runScannerPrivider localTEST,parms
+    #@runScannerPrivider localTEST,parms
+
+    parms =
+      prov: sshTEST._id
+      dir: __dirname
+#@runScannerPrivider sshTEST,parms
 
 
-  runScannerPrivider: (provi,parms)=>
+  runScannerPrivider: (provi, parms) =>
     prov = new FactoryProvider(provi).factory()
     timeTimeout = setTimeout () =>
       @scannerProvider parms, prov, (err)=>
@@ -91,11 +108,11 @@ class FtpCtr
           return res.status(500).jsonp(err.message)
         else
           @removeFilesEsClient prov: parms.prov, () =>
-            @syncronizeCollection prov: parms.prov, ()=>
+            @syncronizeCollection prov: parms.prov, () ->
               console.log 'Finished indexing'
 
 
-  scannerProvider: (parms,prov, next) =>
+  scannerProvider: (parms, prov, next) =>
     @removeFilesMongo prov: parms.prov, () =>
       prov.scraperDir parms.dir, (files, err) =>
         if not files
@@ -104,7 +121,7 @@ class FtpCtr
         else
           if config.esClient.useElastic
             @removeFilesEsClient prov: parms.prov, () =>
-              @syncronizeCollection prov: parms.prov, ()=>
+              @syncronizeCollection prov: parms.prov, ()->
                 console.log 'Finished indexing'
                 next()
           else

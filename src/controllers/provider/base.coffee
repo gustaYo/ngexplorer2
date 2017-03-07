@@ -21,6 +21,7 @@ class Provider
       intents = []
       q = async.queue (dir, callback) =>
         @readPath dir, (filesF, foldersFound) =>
+          console.log dir
           if not filesF and not @isReady
             return next false, foldersFound
           else
@@ -56,10 +57,12 @@ class Provider
       q.unshift dirScann, (err) ->
         console.log 'Inciando->', dirScann
 
-  ignoreDir: (dir) =>
-# dir = decodeURIComponent(dir)
-    post = @prover.ignore.indexOf(dir)
-    return post is -1
+  ignoreDir: (dir, name) =>
+    foundLocal = -1
+    if name
+      foundLocal = @prover.ignore.indexOf("*#{name}")
+    foundGlobal = @prover.ignore.indexOf(dir)
+    return foundLocal is -1 and foundGlobal is -1
 
   concatArray: (a, b) ->
     for n in b
