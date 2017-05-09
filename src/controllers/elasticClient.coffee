@@ -43,7 +43,7 @@ class ElasticClient
     @clientelastic.ping requestTimeout: Infinity, hello: "elasticsearch!", (error) =>
       if error
         if config.esClient.useElastic
-          console.log 'The elasticsearch server in the configuration is activated but now it is down so I can not synchronize anything'
+          console.log 'The elasticsearch server in the configuration is activated but now it is down so I can not synchronize anything.'
           config.esClient.useElastic = false
           next('elasticsearch cluster is down!')
       else
