@@ -23,7 +23,8 @@ class FtpCtr
       _id: 'providerLocalDirectories'
       name: 'providerLocalDirectories'
       rootdir: '/'
-      ignore: ["#{__dirname}/node_modules"]
+      ignore: ["*.git", "*.idea", '*node_modules', '*.npm', '*.meteor']
+      thread: 4
 
     ftpTEST =
       type: 'ftp'
@@ -53,7 +54,7 @@ class FtpCtr
       password: process.env.passwordPC or 'gustalo'
       post: 22
       rootdir: '/'
-      ignore: ["#{__dirname}/node_modules", "*.git", "*.idea"]
+      ignore: ["*.git", "*.idea"]
       thread: 1,
 
     smbTEST =
@@ -75,14 +76,15 @@ class FtpCtr
     #@runScannerPrivider httpTEST, parms
     parms =
       prov: localTEST._id
-      dir: '/'
-    #@runScannerPrivider localTEST,parms
+      dir: '/home/gustayo/Descargas'
+      ignore: ["*.git", "*.idea", '*node_modules', '*.npm', '*.meteor']
+    @runScannerPrivider localTEST,parms
 
     parms =
       prov: sshTEST._id
       dir: __dirname
-      ignore: ["*node_modules", "*.git", "*.idea"]
-    @runScannerPrivider sshTEST,parms
+      ignore: ["*.git", "*.idea"]
+    #@runScannerPrivider sshTEST,parms
 
 
   runScannerPrivider: (provi, parms) =>
@@ -142,43 +144,39 @@ class FtpCtr
     File.remove parms, (err) =>
       next()
 
-  returnRes: (res, err, resp) ->
-    if err
-      return res.status(500).jsonp(err.message)
+
+  getProvider: (req, res) =>
+    if req.query._id
+      Ftp.findOne req.query, (err, prov) =>
+       @returnRes res, err, prov
     else
-      return res.status(200).jsonp(resp)
+      Ftp.find {}, (err, prov) =>
+       @returnRes res, err, prov
 
-# obtener proveedor(es) registrados
-  getProviders: (req, res) =>
-    parms = req.params.parms
-    if parms is 'all'
-      Ftp.find (err, providers) =>
-        @returnRes res, err, providers
+  addProvider: (req, res) =>
+    data = req.body
+    if data._id
+      id = data._id
+      delete data['_id'];
+      Ftp.update {_id: id},{$set: data}, (err) ->
+        if err
+          return res.send 500, err.message 
+        else
+          return res.status(200).jsonp 'ok'
     else
-      Ftp.findOne _id: parms, (err, someProvider) =>
-        @returnRes res, err, someProvider
-
-
-  addFtp: (req, res) =>
-    data = req.body
-    ftp = new Ftp(data)
-    ftp.save (err, newftp) =>
-      @returnRes res, err, newftp
-
-  updateFtp: (req, res) =>
-    data = req.body
-    id = data._id
-    delete data['_id']
-    Ftp.update {_id: id}, {$set: data}, (err) =>
-      @returnRes res, err, 'ok'
-
+      ftp = new Ftp data
+      ftp.save (err, newftp) ->
+        if err
+          return res.send 401, err.message
+        else
+          return res.status(200).jsonp newftp
 
 #DELETE
 #/prov/provider/%5B%58978625a413221e5cb8a37f%22%5D
 
   deleteProvider: (req, res) =>
-    useElastic = false
-    ids = JSON.parse req.params.parms
+    ids = (Array) req.query.ids
+    console.log ids
     Ftp.remove
       _id:
         $in: ids
@@ -193,13 +191,16 @@ class FtpCtr
           if (error)
             return res.status(500).jsonp err.message
           else
-          if useElastic
+          if config.esClient.useElastic
             async.mapLimit ids, 1
             , (server, next) =>
-              @esClient.deleteFilesIndex prov: server, 'gustaaaa', 'file', next()
-            , () ->
-              console.log("eliminado todos lo dos en el servidor elastic")
-          return res.status(200).jsonp('ok')
+              async.mapLimit ids, 1, (someProv, next) =>
+                @removeFilesEsClient prov: someProv, () =>
+                  next()
+              , () ->
+                console.log("delete all files")
+              @removeFilesEsClient prov: ids, () ->
+          return res.status(200).jsonp 'ok'
 
   findProviderFile: (req, res) =>
     data = req.body
@@ -218,7 +219,7 @@ class FtpCtr
       if parms.extname and parms.extname is not ''
         query.extname = new RegExp parms.extname, "i"
       File.find query
-      .limit 50
+      .limit 100
       .exec (err, filesFound) ->
         if err
           res.status 500
@@ -244,6 +245,27 @@ class FtpCtr
   countFtpFiles: (req, res) ->
     res.status 200
     .send 'ok'
+
+  getFile: (req, res) ->
+    res.status 200
+    .send 'ok'
+
+  sincronize: (req, res) ->
+    res.status 200
+    .send 'ok'
+
+  testSincronize: (req, res) ->
+    parms = req.query
+    Ftp.findOne uri: parms.uri,dirscan: parms.dirscan, (err, ftp) ->
+      if err
+        res.status(401).send err.message
+      else
+        if ftp
+          FtpFiles.count ftp: ftp._id, (err, count) ->
+            res.status(200).send ftp: ftp, numFiles: count
+        else
+          res.status(401).send 'not_found'
+
 
   getSizeFolder: (req, res) ->
     parms = req.query
@@ -333,6 +355,11 @@ class FtpCtr
         callback null, today.format()
       next
 
+  returnRes: (res, err, resp) ->
+    if err
+      return res.status(401).send { success: false, msg: err.message }
+    else
+      return res.status(200).json { success: true, data: resp }
 
 
   calcCharts: (numdays, next) =>

@@ -90,7 +90,6 @@ class ElasticClient
         @freeEsClient () =>
           @findFiles query, MongoDbModel, skip, perPage, (err, files) =>
             if files.length is 0
-              console.log 'terminada synchronize'
               next()
             else
               create_bulk = @bulkAdd [], files, indexElasticName, type
@@ -181,23 +180,27 @@ class ElasticClient
         query:
           term: parms
     ,getMoreUntilDone =(error, response) =>
-      count += response.hits.hits.length
-      response.hits.hits.map (hit) -> allRecords.push hit
-      if count%15000 is 0
-        console.log 'hit count->',count
-      if response.hits.total is count
-        create_bulk = @bulkDelete [], allRecords, indexName, 'file'
-        @freeEsClient () =>
-          @bulkFlush create_bulk, (err, resp) =>
-            create_bulk = []
-            allRecords = []
-            @freeEsClient () =>
-              next(count)
+      if response.hits
+        count += response.hits.hits.length
+        response.hits.hits.map (hit) -> allRecords.push hit
+        if count%15000 is 0
+          console.log 'hit count->',count
+        if response.hits.total is count
+          create_bulk = @bulkDelete [], allRecords, indexName, 'file'
+          @freeEsClient () =>
+            @bulkFlush create_bulk, (err, resp) =>
+              create_bulk = []
+              allRecords = []
+              @freeEsClient () =>
+                next(count)
+        else
+          @clientelastic.scroll
+            scrollId: response._scroll_id,
+            scroll: '10s'
+          ,getMoreUntilDone
       else
-        @clientelastic.scroll
-          scrollId: response._scroll_id,
-          scroll: '10s'
-        ,getMoreUntilDone
+        console.log 'not found files to delete'
+        next(0)
 
 
 exports.ElasticClient = ElasticClient

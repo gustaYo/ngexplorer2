@@ -54,7 +54,6 @@ class Provider
         demoro = demoro / 1000
         console.log 'escaneado en ', demoro
 
-
       q.unshift dirScann, (err) ->
         console.log 'Inciando->', dirScann
 

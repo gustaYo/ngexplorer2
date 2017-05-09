@@ -52,7 +52,7 @@ class SSHProvider extends Provider
         else
           stats = JSON.parse(JSON.stringify(file.attrs))
           file =
-            provider: @prover._id
+            prov: @prover._id
             name: file.filename
             extname: @extnameFile file.filename
             dir: path

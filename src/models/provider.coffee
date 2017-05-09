@@ -4,8 +4,8 @@ Schema = mongoose.Schema
 ProviderSchema = new Schema
   name:
     type: String
-    #unique: true
     required: 'Name is required'
+    unique: true
     trim: true
   user: String
   pass: String

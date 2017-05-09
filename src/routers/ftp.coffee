@@ -4,23 +4,23 @@ module.exports = (app, express) =>
   ftpRouter = express.Router()
 
   ftpRouter.route('/provider')
-  .post ftpController.addFtp
-  .put ftpController.updateFtp
+  .post ftpController.addProvider
+  .delete ftpController.deleteProvider
+  .get ftpController.getProvider
 
   ftpRouter.route('/files')
   .post ftpController.findProviderFile
-  .get ftpController.getSizeFolder
+  .get ftpController.getFile
 
-  ftpRouter.route('/filescount')
+  ftpRouter.route('/filestatistics')
   .post ftpController.countFtpFiles
-  .get ftpController.getSizeFolder
-  .put ftpController.getChartStadist
+  .get ftpController.getChartStadist
 
-  ftpRouter.route('/provider/:parms')
-  .get ftpController.getProviders
-  .delete ftpController.deleteProvider
+  ftpRouter.route('/fileadmin')
   .post ftpController.scannerProvider
-
+  .put ftpController.sincronize
+  .get ftpController.testSincronize
+  
   app.use('/prov', ftpRouter)
 
 

@@ -6,16 +6,18 @@ class LOCALProvider extends Provider
     super
 
   readPath: (path, next)=>
-    fs.readdir path, (err, files) =>
-      if err
-        console.log('hubo algun error al leer el directorio', path)
-        next([], [])
-      else
-        @statFiles path, files, (filesFound, foldersFound) ->
-          next filesFound, foldersFound
+    try
+      fs.readdir path, (err, files) =>
+        if err
+          console.log('hubo algun error al leer el directorio', path)
+          next([], [])
+        else
+          @statFiles path, files, (filesFound, foldersFound) ->
+            next filesFound, foldersFound
+    catch error
+      next [], []
 
   statFiles: (path, files, next) =>
-    console.log path
     folders = []
     filesR = []
     prover = @prover
@@ -29,6 +31,8 @@ class LOCALProvider extends Provider
           if stat.isFile()
             newFile =
               prov: prover._id
+              extname: @extnameFile file
+              size: stat.size
               name: file
               dir: path
               atime: stat.atime

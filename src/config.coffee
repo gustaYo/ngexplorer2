@@ -1,6 +1,8 @@
 {process} = global
-
+bcrypt = __non_webpack_require__ 'bcrypt'
 config =
+  port: 3311
+  secret: 'somee' or bcrypt.genSaltSync(10)
   db:
     uri: process.env.MONGO_URL or 'mongodb://127.0.0.1/ngexplorercoffee'
     options:
