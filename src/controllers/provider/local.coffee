@@ -36,7 +36,7 @@ class LOCALProvider extends Provider
             filesR.push newFile
             callback()
           else if stat.isDirectory()
-            if @ignoreDir path + '/' + file
+            if @ignoreDir path + '/' + file, file
               folder =
                 dir: path
                 name: file

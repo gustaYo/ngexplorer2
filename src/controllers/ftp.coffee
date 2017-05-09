@@ -1,4 +1,4 @@
-{Providers} = require './provider/base.coffee'
+
 {FactoryProvider} = require './provider/factory.coffee'
 {ElasticClient} = require './elasticClient.coffee'
 {Ftp, File} = require '../models/provider.coffee'
@@ -7,6 +7,7 @@
 async = __non_webpack_require__ 'async'
 moment = __non_webpack_require__ 'moment'
 path = __non_webpack_require__ 'path'
+{process} = global
 
 class FtpCtr
   constructor: () ->
@@ -38,7 +39,7 @@ class FtpCtr
       _id: 'providerHttpStore'
       name: 'providerHttpStore'
       rootdir: '/',
-      uri: 'http://store.some.cu'
+      uri: 'http://store.uci.cu'
       ignore: []
       thread: 4,
       queryName: 'a'
@@ -47,13 +48,13 @@ class FtpCtr
       type: 'ssh'
       _id: 'providerSSHStore'
       name: 'providerSHHStore'
-      uri: 'tuip'
-      user: 'gustaYo'
-      password: 'mypassword'
+      uri: process.env.ipPC or '10.12.36.34'
+      user: process.env.userPC or 'gustayo'
+      password: process.env.passwordPC or 'gustalo'
       post: 22
-      rootdir: '/',
+      rootdir: '/'
       ignore: ["#{__dirname}/node_modules", "*.git", "*.idea"]
-      thread: 4,
+      thread: 1,
 
     smbTEST =
       type: 'smb'
@@ -74,12 +75,13 @@ class FtpCtr
     #@runScannerPrivider httpTEST, parms
     parms =
       prov: localTEST._id
-      dir: __dirname
+      dir: '/'
     #@runScannerPrivider localTEST,parms
 
     parms =
       prov: sshTEST._id
       dir: __dirname
+      ignore: ["*node_modules", "*.git", "*.idea"]
     @runScannerPrivider sshTEST,parms
 
 
@@ -88,7 +90,7 @@ class FtpCtr
     timeTimeout = setTimeout () =>
       @scannerProvider parms, prov, (err)=>
         if err
-          console.log err
+          console.log err, 'somee'
         prov = null
     , 1000
 
@@ -114,6 +116,7 @@ class FtpCtr
 
   scannerProvider: (parms, prov, next) =>
     @removeFilesMongo prov: parms.prov, () =>
+      console.log parms
       prov.scraperDir parms.dir, (files, err) =>
         if not files
           console.log 'error', err

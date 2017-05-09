@@ -1,6 +1,7 @@
 async = __non_webpack_require__ 'async'
 fs = __non_webpack_require__ 'fs'
-mongoose = __non_webpack_require__('mongoose')
+mongoose = __non_webpack_require__ 'mongoose'
+path = __non_webpack_require__ 'path'
 class Provider
   constructor: (@prover = null) ->
     @totalFilesFound = 0
@@ -74,6 +75,5 @@ class Provider
       next()
 
   extnameFile: (name) ->
-    extname = name.split('.')
-    return extname[extname.length - 1]
+    return path.extname(name)
 exports.Provider = Provider

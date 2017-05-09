@@ -46,7 +46,7 @@ class FTPProvider extends Provider
             if path is '/'
               join = ''
             newPaht = path + join + name
-            if @ignoreDir newPaht
+            if @ignoreDir newPaht, name
               folder =
                 dir: path
                 name: name

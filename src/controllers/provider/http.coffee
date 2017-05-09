@@ -93,7 +93,7 @@ class HTTPProvider extends Provider
         else
           if href[href.length - 1] is '/'
             name = href.substring 0, href.length - 1
-            if ignoreDir path + '/' + name
+            if ignoreDir path + '/' + name, name
               folder =
                 dir: path
                 name: name

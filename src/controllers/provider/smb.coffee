@@ -11,7 +11,7 @@ class SMBProvider extends Provider
     try
       config =
 # \\\\192.168.1.6\\media
-        share: '\\\\10.8.75.202\\coffeeExplorer'
+        share: '\\\\someip\\coffeeExplorer'
         domain: 'WORKGROUP'
         username: 'copi'
         password: '123456'

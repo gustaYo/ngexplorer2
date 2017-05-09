@@ -8,6 +8,17 @@ module.exports = {
         filename: 'server.js'
     },
     module: {
+        rules: [
+            {
+                test: /\.coffee.md$/,
+                use: [
+                    {
+                        loader: 'coffee-loader',
+                        options: { literate: true }
+                    }
+                ]
+            }
+        ],
         loaders: [
             {
                 test: /\.coffee$/,
@@ -20,7 +31,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader'
-            },
+            }
         ]
     },
     stats: {
