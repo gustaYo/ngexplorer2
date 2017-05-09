@@ -2,21 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f8b36dab-78f6-4b63-b80d-9ce442c4700e" name="Default" comment="updates">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.coffee" afterPath="$PROJECT_DIR$/index.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/config.coffee" afterPath="$PROJECT_DIR$/src/config.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controllers/elasticClient.coffee" afterPath="$PROJECT_DIR$/src/controllers/elasticClient.coffee" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controllers/ftp.coffee" afterPath="$PROJECT_DIR$/src/controllers/ftp.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controllers/provider/base.coffee" afterPath="$PROJECT_DIR$/src/controllers/provider/base.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controllers/provider/local.coffee" afterPath="$PROJECT_DIR$/src/controllers/provider/local.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controllers/provider/ssh.coffee" afterPath="$PROJECT_DIR$/src/controllers/provider/ssh.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controllers/user.coffee" afterPath="$PROJECT_DIR$/src/controllers/user.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/models/provider.coffee" afterPath="$PROJECT_DIR$/src/models/provider.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/models/user.coffee" afterPath="$PROJECT_DIR$/src/models/user.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routers/ftp.coffee" afterPath="$PROJECT_DIR$/src/routers/ftp.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routers/user.coffee" afterPath="$PROJECT_DIR$/src/routers/user.coffee" />
     </list>
     <ignored path="ngexplorer2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,38 +30,28 @@
       <file leaf-file-name="ftp.coffee" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controllers/ftp.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="78" column="35" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
+            <state relative-caret-position="-825">
+              <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="65" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ftp.coffee" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/controllers/provider/ftp.coffee">
+      <file leaf-file-name="index.coffee" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="61">
-              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="41" selection-end-column="21" />
+            <state relative-caret-position="120">
+              <caret line="8" column="40" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="local.coffee" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/controllers/provider/local.coffee">
+      <file leaf-file-name="elasticClient.coffee" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/controllers/elasticClient.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="51" column="7" selection-start-line="51" selection-start-column="7" selection-end-line="51" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ssh.coffee" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/controllers/provider/ssh.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
-              <caret line="58" column="28" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="28" />
+            <state relative-caret-position="225">
+              <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -111,7 +90,6 @@
         <option value="$PROJECT_DIR$/src/controllers/provider/smb.coffee" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/config.coffee" />
-        <option value="$PROJECT_DIR$/index.coffee" />
         <option value="$PROJECT_DIR$/src/controllers/messages.coffee" />
         <option value="$PROJECT_DIR$/src/models/user.coffee" />
         <option value="$PROJECT_DIR$/src/routers/user.coffee" />
@@ -121,9 +99,11 @@
         <option value="$PROJECT_DIR$/src/controllers/provider/base.coffee" />
         <option value="$PROJECT_DIR$/src/models/provider.coffee" />
         <option value="$PROJECT_DIR$/src/controllers/provider/ssh.coffee" />
-        <option value="$PROJECT_DIR$/src/controllers/elasticClient.coffee" />
-        <option value="$PROJECT_DIR$/src/controllers/ftp.coffee" />
         <option value="$PROJECT_DIR$/src/controllers/provider/local.coffee" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/index.coffee" />
+        <option value="$PROJECT_DIR$/src/controllers/ftp.coffee" />
+        <option value="$PROJECT_DIR$/src/controllers/elasticClient.coffee" />
       </list>
     </option>
   </component>
@@ -198,20 +178,6 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ngexplorer2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ngexplorer2" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -230,25 +196,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ngexplorer2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ngexplorer2" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
+              <option name="myItemId" value="routers" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -267,10 +215,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="provider" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -1881,7 +1825,7 @@
       <workItem from="1493927939871" duration="20000" />
       <workItem from="1494269937544" duration="6310000" />
       <workItem from="1494332461090" duration="13033000" />
-      <workItem from="1494351436887" duration="8587000" />
+      <workItem from="1494351436887" duration="11413000" />
     </task>
     <task id="LOCAL-00001" summary="updates">
       <created>1486676220418</created>
@@ -1894,7 +1838,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75592000" />
+    <option name="totallyTimeSpent" value="78418000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1917,7 +1861,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40630183" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28026533" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22179878" sideWeight="0.49078342" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2035061" sideWeight="0.49078342" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1973,13 +1917,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/controllers/provider/http.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/spec.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -2054,13 +1991,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/provider/factory.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../sshLIST/server.js" />
     <entry file="file://$PROJECT_DIR$/webpack.config-test.babel.js" />
     <entry file="file://$PROJECT_DIR$/webpack.config-test.coffee" />
@@ -2127,13 +2057,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="15" column="18" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../serverNgexplorer/routers/ftp.server.router.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -2160,21 +2083,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="256">
           <caret line="329" column="52" selection-start-line="329" selection-start-column="44" selection-end-line="329" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/provider/http.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-314">
-          <caret line="94" column="52" selection-start-line="94" selection-start-column="52" selection-end-line="94" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/provider/smb.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="21" column="15" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
         </state>
       </provider>
     </entry>
@@ -2270,26 +2178,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/provider/base.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="766">
-          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/elasticClient.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="83" column="12" selection-start-line="83" selection-start-column="12" selection-end-line="83" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/controllers/provider/ssh.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="376">
           <caret line="58" column="28" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/provider/smb.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="21" column="15" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/provider/local.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="541">
+          <caret line="51" column="7" selection-start-line="51" selection-start-column="7" selection-end-line="51" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/provider/http.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="94" column="52" selection-start-line="94" selection-start-column="52" selection-end-line="94" selection-end-column="52" />
           <folding />
         </state>
       </provider>
@@ -2302,18 +2218,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/ftp.coffee">
+    <entry file="file://$PROJECT_DIR$/src/controllers/provider/factory.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="78" column="35" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
+        <state relative-caret-position="300">
+          <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/provider/local.coffee">
+    <entry file="file://$PROJECT_DIR$/src/controllers/provider/base.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="40" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="361">
-          <caret line="51" column="7" selection-start-line="51" selection-start-column="7" selection-end-line="51" selection-end-column="7" />
+          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/ftp.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-825">
+          <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="65" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/elasticClient.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
           <folding />
         </state>
       </provider>

@@ -17,6 +17,12 @@ Indexes http, ftp, smb providers and local directories in mongodb database with 
 2. Open a new terminal window and run `npm start` to execute the app
 
 # ElasticSearch integration
+
+        apt-get install elasticsearch
+        gedit /etc/default/elasticsearch
+        Uncomment START_DAEMON=true
+        systemctl restart
+
  
 Activate it in the configuration file and define parameters. 
 

@@ -49,10 +49,10 @@ class FtpCtr
       type: 'ssh'
       _id: 'providerSSHStore'
       name: 'providerSHHStore'
-      uri: process.env.ipPC or '10.12.36.34'
-      user: process.env.userPC or 'gustayo'
-      password: process.env.passwordPC or 'gustalo'
-      post: 22
+      uri: process.env.ipPC or 'tuip'
+      user: process.env.userPC or 'tuuser'
+      password: process.env.passwordPC or 'tupass'
+      port: 22
       rootdir: '/'
       ignore: ["*.git", "*.idea"]
       thread: 1,
@@ -76,7 +76,7 @@ class FtpCtr
     #@runScannerPrivider httpTEST, parms
     parms =
       prov: localTEST._id
-      dir: '/home/gustayo/Descargas'
+      dir: __dirname
       ignore: ["*.git", "*.idea", '*node_modules', '*.npm', '*.meteor']
     @runScannerPrivider localTEST,parms
 

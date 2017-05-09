@@ -3,7 +3,11 @@ elasticsearch = __non_webpack_require__('elasticsearch')
 class ElasticClient
   constructor: (@config = null)->
     @clientelastic = new elasticsearch.Client @config or (host: '127.0.0.1:9200')
-    @ping()
+    @ping (error)->
+      if error
+        console.log error
+      else
+        console.log 'elasticsearch is well'
     @timeTimeout = 1
     @lastCount = 0
     @settings =
@@ -35,12 +39,16 @@ class ElasticClient
     @type = config.esClient.type
 
 
-  ping: () =>
+  ping: (next) =>
     @clientelastic.ping requestTimeout: Infinity, hello: "elasticsearch!", (error) =>
       if error
-        console.trace 'elasticsearch cluster is down!'
+        if config.esClient.useElastic
+          console.log 'The elasticsearch server in the configuration is activated but now it is down so I can not synchronize anything'
+          config.esClient.useElastic = false
+          next('elasticsearch cluster is down!')
       else
-        console.log 'elasticsearch is well'
+        config.esClient.useElastic = true
+        next()
         #@deleteAllIndexs().then () =>
 
 
