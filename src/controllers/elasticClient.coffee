@@ -202,11 +202,11 @@ class ElasticClient
     @clientelastic.search searchParams, next
 
 
-  deleteAllFilesProv: (indexName, parms,type, next) =>
+  deleteAllFilesProv: (indexName, parms, type, next) =>
     allRecords = []
     count = 0
     @clientelastic.search
-      index: @indexName
+      index: indexName
       type: type
       scroll: '30s'
       search_type: 'scan'
@@ -225,7 +225,7 @@ class ElasticClient
               create_bulk = []
               allRecords = []
               @freeEsClient () =>
-                next(count)
+                next count
         else
           @clientelastic.scroll
             scrollId: response._scroll_id,

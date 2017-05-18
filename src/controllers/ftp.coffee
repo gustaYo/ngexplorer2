@@ -12,7 +12,7 @@ path = __non_webpack_require__ 'path'
 class FtpCtr
   constructor: () ->
     @esClient = new ElasticClient(config.esClient.config)
-    @useElastic = false
+    @useElastic = config.esClient.useElastic
     @charResult =
       time: moment(moment().startOf 'day').add 1, 'days'
       result: false
@@ -86,8 +86,6 @@ class FtpCtr
       ignore: ["*.git", "*.idea"]
     #@runScannerPrivider sshTEST,parms
 
-
-
   runScannerPrivider: (provi, parms) =>
     prov = new FactoryProvider(provi).factory()
     timeTimeout = setTimeout () =>
@@ -96,7 +94,6 @@ class FtpCtr
           console.log err, 'somee'
         prov = null
     , 1000
-
 
   providerScanner: (req, res) =>
     data = req.body
@@ -115,7 +112,6 @@ class FtpCtr
           @removeFilesEsClient prov: parms.prov, () =>
             @syncronizeCollection prov: parms.prov, () ->
               console.log 'Finished indexing'
-
 
   scannerProvider: (parms, prov, next) =>
     @removeFilesMongo prov: parms.prov, () =>
@@ -200,7 +196,6 @@ class FtpCtr
                   next()
               , () ->
                 console.log("delete all files")
-              @removeFilesEsClient prov: ids, () ->
           return res.status(200).jsonp 'ok'
 
   findProviderFile: (req, res) =>
@@ -278,10 +273,9 @@ class FtpCtr
         else
           res.status(401).send 'not_found'
 
-
   getSizeFolder: (req, res) ->
     parms = req.query
-    if parms.useElastic
+    if config.esClient.useElastic
       console.log 'calculo usuando elastic'
     else
     join = if parms.directory is '/' then '' else '/'
