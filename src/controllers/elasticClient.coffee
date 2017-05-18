@@ -40,16 +40,17 @@ class ElasticClient
 
 
   ping: (next) =>
-    @clientelastic.ping requestTimeout: Infinity, hello: "elasticsearch!", (error) =>
-      if error
-        if config.esClient.useElastic
-          console.log 'The elasticsearch server in the configuration is activated but now it is down so I can not synchronize anything.'
-          config.esClient.useElastic = false
-          next('elasticsearch cluster is down!')
-      else
-        config.esClient.useElastic = true
-        next()
-        #@deleteAllIndexs().then () =>
+    if config.esClient.useElastic
+      @clientelastic.ping requestTimeout: Infinity, hello: "elasticsearch!", (error) =>
+        if error
+            console.log 'The elasticsearch server in the configuration is activated but now it is down so I can not synchronize anything.'
+            config.esClient.useElastic = false
+            next('elasticsearch cluster is down!')
+        else
+          config.esClient.useElastic = true
+          #@deleteAllIndexs().then () => console.log 'delete all'
+          next()
+
 
 
   getClient: () =>
@@ -139,7 +140,7 @@ class ElasticClient
       body: body
 
   elasticCount: (next)=>
-    @clientelastic.count (error, response, status) =>
+    @clientelastic.count index: @indexName, (error, response) =>
       next(response.count)
 
   foundInitIndex: (indexName, settings, body, type, next) =>
@@ -153,40 +154,64 @@ class ElasticClient
             next()
 
   deleteFilesIndex: (parm, indexElasticName, type, next) =>
+    console.log parm
     @foundInitIndex indexElasticName, @settings, @body, type, () =>
       timeTimeout = setTimeout () =>
-        @deleteAllFilesProv indexElasticName,parm, (numFound) =>
+        @deleteAllFilesProv indexElasticName,parm,type, (numFound) =>
           next()
       , 200
 
-
-  findFilesProv: (parms, indexName, next) =>
-    @clientelastic.search
-
-      index: indexName,
-      type: @type,
-      from: 0,
-      size: 1000,
+  findFilesDir: (parms, next)=>
+    searchParams=
+      index: @indexName
+      size: 500
       body:
         query:
-          match:parms
+          match:
+            dir: parms.dir
+        filter:
+          and:
+            [
+              term: 
+                prov: parms.prov or 'prueba'
+            ]
+    @clientelastic.search searchParams, next      
 
-    .then (resp) =>
-      next(null, resp.hits.hits)
-    , (err) =>
-      next(err)
+  findFilesProv: (parms, next) =>
+    extname =
+      regexp:
+        name: ".*" + '' + ".*"
+    if parms.extname
+      extname.regexp.name = ".*" + parms.extname + ".*"
+    searchParams =
+      index: @indexName
+      from: 0
+      size: 100
+      body:
+        query:
+          match_phrase_prefix:
+            name: encodeURIComponent(parms.name.toLowerCase())
+        filter:
+         and:
+           [
+             terms:
+               prov: parms.provs.split ','
+             extname
+           ]
+
+    @clientelastic.search searchParams, next
 
 
-  deleteAllFilesProv: (indexName,parms, next) =>
+  deleteAllFilesProv: (indexName, parms,type, next) =>
     allRecords = []
     count = 0
     @clientelastic.search
-      index: indexName
-      type: 'file'
-      scroll: '10s'
-      body:
-        query:
-          term: parms
+      index: @indexName
+      type: type
+      scroll: '30s'
+      search_type: 'scan'
+      fields: ['name']
+      q: 'prov:' + parms.prov
     ,getMoreUntilDone =(error, response) =>
       if response.hits
         count += response.hits.hits.length

@@ -20,8 +20,8 @@ class FtpCtr
     # providers examples  
     localTEST =
       type: 'local'
-      _id: 'providerLocalDirectories'
-      name: 'providerLocalDirectories'
+      _id: 'prueba'
+      name: 'prueba'
       rootdir: '/'
       ignore: ["*.git", "*.idea", '*node_modules', '*.npm', '*.meteor']
       thread: 4
@@ -62,7 +62,7 @@ class FtpCtr
       _id: 'smb'
       name: 'SharedFolder'
       rootdir: '\\node_modules'
-      uri: '\\\\192.168.1.6\\media'
+      uri: '\\\\10.12.36.35/pruebaa/'
       ignore: []
 
     # some example
@@ -78,13 +78,14 @@ class FtpCtr
       prov: localTEST._id
       dir: __dirname
       ignore: ["*.git", "*.idea", '*node_modules', '*.npm', '*.meteor']
-    @runScannerPrivider localTEST,parms
+    #@runScannerPrivider localTEST,parms
 
     parms =
       prov: sshTEST._id
       dir: __dirname
       ignore: ["*.git", "*.idea"]
     #@runScannerPrivider sshTEST,parms
+
 
 
   runScannerPrivider: (provi, parms) =>
@@ -205,17 +206,21 @@ class FtpCtr
   findProviderFile: (req, res) =>
     data = req.body
     if data.type
+      console.log 'find files'
       @searchFilter data, res
     else
+      console.log 'list dir'
       @listDirectoryProvider data, res
 
   searchFilter: (parms, res) ->
     parms.name = parms.name or ""
-    if parms.useElastic
+    if config.esClient.useElastic
       console.log 'use elasticClient'
+      @esClient.findFilesProv parms ,(err, files) ->
+        res.status 200
+        .send files
     else
-      query = name: new RegExp(encodeURIComponent(parms.name), "i"), "prov":
-        $in: parms.provs
+      query = 'name': new RegExp(encodeURIComponent(parms.name), "i"), 'prov': $in: provs
       if parms.extname and parms.extname is not ''
         query.extname = new RegExp parms.extname, "i"
       File.find query
@@ -229,10 +234,17 @@ class FtpCtr
           .send filesFound
 
   listDirectoryProvider: (parms, res) ->
-    if data.useElastic
+    if config.esClient.useElastic
       console.log 'use elastic'
+      @esClient.findFilesDir parms ,(err, files) ->
+        res.status 200
+        .send files
     else
-      FtpFiles.find parms
+      console.log 'use mongodb'
+      someParms=
+        prov: parms.prov or 'prueba'
+        dir: parms.dir
+      File.find someParms
       .sort name: -1
       .exec (err, filesFound) ->
         if err
@@ -314,7 +326,7 @@ class FtpCtr
         logModel = new Logs log
         logModel.save()
       else
-# este usuario ya registro un log en menos de tm pasado
+# este usuario ya registro un log en pm pasados
 
   countAuxVisit: (today, tomorrow, next) ->
     async.parallel

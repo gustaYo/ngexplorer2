@@ -1,6 +1,6 @@
 {Provider} = require './base.coffee'
-SMB2 = __non_webpack_require__ '@marsaud/smb2'
-# SMB2 = __non_webpack_require__ 'smb2'
+#SMB2 = __non_webpack_require__ '@marsaud/smb2'
+SMB2 = __non_webpack_require__ 'smb2'
 path = __non_webpack_require__ 'path'
 class SMBProvider extends Provider
   constructor: ->
@@ -11,7 +11,7 @@ class SMBProvider extends Provider
     try
       config =
 # \\\\192.168.1.6\\media
-        share: '\\\\someip\\coffeeExplorer'
+        share: '\\\\10.12.36.35\\pruebaa'
         domain: 'WORKGROUP'
         username: 'copi'
         password: '123456'

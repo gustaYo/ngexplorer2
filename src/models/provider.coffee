@@ -31,7 +31,7 @@ FileSchema = new Schema
     type: String
     sparse: true
   extname: String
-  directory: String
+  dir: String
   size: String
   time: String
   prov: String

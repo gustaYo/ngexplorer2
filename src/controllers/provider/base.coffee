@@ -64,11 +64,6 @@ class Provider
     foundGlobal = @prover.ignore.indexOf(dir)
     return foundLocal is -1 and foundGlobal is -1
 
-  concatArray: (a, b) ->
-    for n in b
-      a.push n
-    return a
-
   insertMultilpleDB: (files, next) =>
     @FileModel.collection.insert files, (err) =>
       next()
